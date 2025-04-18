@@ -6,14 +6,14 @@ module drain_cover(outer_radius, inner_radius, height)
 
     // top
     translate(v = [ 0, 0, 0.5 * (height - top_thin) ])
-        circular_net(radius = outer_radius, height = top_thin, outer_width = edge_len + thin, hole_width = 8);
+        circular_net(radius = outer_radius, height = top_thin, outer_width = edge_len + thin, hole_width = 5);
 
     // side
-    side_net(height = height, top_radius = inner_radius, thin = thin, hole_width = 3);
+    side_net(height = height, top_radius = inner_radius, thin = thin, hole_width = 2);
 
     // bottom
     translate(v = [ 0, 0, -0.5 * (height - thin) ])
-        circular_net(radius = 0.8 * inner_radius, height = thin, outer_width = 7, hole_width = 3);
+        circular_net(radius = 0.8 * inner_radius, height = thin, outer_width = 2, hole_width = 2);
 }
 
 module side_net(height, top_radius, thin, hole_width)
@@ -73,4 +73,4 @@ module ring(outer_radius, width, height, center)
     }
 }
 
-drain_cover(outer_radius = 100, inner_radius = 80, height = 50);
+drain_cover(outer_radius = 50, inner_radius = 35, height = 30);
