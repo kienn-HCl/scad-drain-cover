@@ -1,47 +1,47 @@
-module drain_cover(outer_radius, inner_radius, height)
+module drain_cover(outer_radius, inner_radius, height, top_thin, thin)
 {
-    top_thin = 7;
-    thin = 2;
     edge_len = outer_radius - inner_radius;
+    bottom_radius = 0.6 * inner_radius;
 
     // top
     translate(v = [ 0, 0, 0.5 * (height - top_thin) ])
-        circular_net(radius = outer_radius, height = top_thin, outer_width = edge_len + thin, hole_width = 5);
+        circular_net(radius = outer_radius, height = top_thin, outer_width = edge_len, hole_width = 8, net_width = 3);
 
     // side
-    side_net(height = height, top_radius = inner_radius, thin = thin, hole_width = 2);
+    side_net(top_radius = inner_radius + thin, bottom_radius = bottom_radius, height = height, thin = thin,
+             hole_width = 2, net_width = 2);
 
     // bottom
     translate(v = [ 0, 0, -0.5 * (height - thin) ])
-        circular_net(radius = 0.8 * inner_radius, height = thin, outer_width = 2, hole_width = 2);
+        circular_net(radius = bottom_radius, height = thin, outer_width = 2, hole_width = 3, net_width = 2);
 }
 
-module side_net(height, top_radius, thin, hole_width)
+module side_net(top_radius, bottom_radius, height, thin, hole_width, net_width)
 {
     difference()
     {
-        base_side(height = height, top_radius = top_radius, thin = thin);
+        base_side(top_radius = top_radius, bottom_radius = bottom_radius, height = height, thin = thin);
 
-        net_width = 0.8 * hole_width;
-        d_radian = (hole_width + net_width) / (0.9 * top_radius);
+        average_radius = 0.5 * (top_radius + bottom_radius);
+        d_radian = (hole_width + net_width) / average_radius;
         d_degree = d_radian * 180 / PI;
         for (angle = [0:d_degree:180])
         {
-            rotate([ 0, 0, angle ]) cube(size = [ 2 * top_radius, hole_width, 0.9 * height ], center = true);
+            rotate([ 0, 0, angle ]) cube(size = [ 2 * top_radius, hole_width, height - 2 * thin ], center = true);
         }
     }
 }
 
-module base_side(height, top_radius, thin)
+module base_side(top_radius, bottom_radius, height, thin)
 {
     difference()
     {
-        cylinder(h = height, r1 = 0.8 * top_radius, r2 = top_radius, center = true);
-        cylinder(h = height + 1, r1 = 0.8 * top_radius - thin, r2 = top_radius - thin, center = true);
+        cylinder(h = height, r1 = bottom_radius, r2 = top_radius, center = true);
+        cylinder(h = height + 0.01, r1 = bottom_radius - thin, r2 = top_radius - thin, center = true);
     }
 }
 
-module circular_net(radius, height, outer_width, hole_width)
+module circular_net(radius, height, outer_width, hole_width, net_width)
 {
     center = true;
 
@@ -49,7 +49,6 @@ module circular_net(radius, height, outer_width, hole_width)
     ring(outer_radius = radius, height = height, width = outer_width, center = center);
 
     // 同心円状の網部分
-    net_width = 0.8 * hole_width;
     for (ring_radius = [radius - outer_width - hole_width:-(net_width + hole_width):0])
     {
         ring(outer_radius = ring_radius, height = height, width = net_width, center = center);
@@ -57,10 +56,9 @@ module circular_net(radius, height, outer_width, hole_width)
 
     // 網を支える棒部分
     bar_num = 3;
-    bar_width = 1.2 * hole_width;
     for (angle = [0:180 / bar_num:180])
     {
-        rotate([ 0, 0, angle ]) cube(size = [ 2 * radius - outer_width, bar_width, height ], center = true);
+        rotate([ 0, 0, angle ]) cube(size = [ 2 * radius - outer_width, net_width, height ], center = true);
     }
 }
 
@@ -73,4 +71,4 @@ module ring(outer_radius, width, height, center)
     }
 }
 
-drain_cover(outer_radius = 50, inner_radius = 35, height = 30);
+drain_cover(outer_radius = 50, inner_radius = 35, height = 30, top_thin = 10, thin = 2);
