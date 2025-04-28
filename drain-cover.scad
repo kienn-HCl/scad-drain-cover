@@ -7,7 +7,7 @@ module drain_cover(radius, edge_len, height, sharpness, top_thin, thin)
         circular_net(radius = radius, edge_len = edge_len + thin, height = top_thin, hole_width = 8, net_width = 3);
 
     // side
-    side_net(radius = radius - edge_len, height = side_height + 1, factorial = sharpness, thin = thin, hole_width = 2,
+    side_net(radius = radius - edge_len, height = side_height, factorial = sharpness, thin = thin, hole_width = 2,
              net_width = 2);
 }
 
@@ -17,11 +17,14 @@ module side_net(radius, height, factorial, thin, hole_width, net_width)
     {
         base_side(radius = radius, height = height, factorial = factorial, thin = thin);
         net(radius = radius, height = height, thin = thin, hole_width = hole_width, net_width = net_width);
+        ring(outer_radius = radius, width = 0.4 * radius, height = height, center = false);
     }
     intersection()
     {
         base_side(radius = radius, height = height, factorial = factorial, thin = thin);
-        ring(outer_radius = 0.6 * radius, width = thin, height = height, center = false);
+        translate(v = [ 0, 0, 0.5 * height ])
+            circular_net(radius = 0.6 * radius, edge_len = net_width, height = height,
+                         hole_width = hole_width, net_width = net_width);
     }
 }
 
@@ -34,7 +37,7 @@ module net(radius, height, thin, hole_width, net_width)
         rotate([ 0, 0, angle ])
         {
             linear_extrude(height = height, center = false)
-                polygon(points = [ [ -thin, 0 ], [ radius, 0.5 * thin ], [ radius, -0.5 * thin ] ]);
+                polygon(points = [ [ 0, 0 ], [ radius, 0.5 * net_width ], [ radius, -0.5 * net_width ] ]);
         }
     }
 }
@@ -98,6 +101,6 @@ module ring(outer_radius, width, height, center)
 }
 
 // bathroom
-drain_cover(radius = 51, edge_len = 15, height = 30, sharpness=4, top_thin = 10, thin = 2);
+drain_cover(radius = 51, edge_len = 15, height = 30, sharpness = 4, top_thin = 10, thin = 2);
 // kitchen
 // drain_cover(radius = 40, edge_len = 2, height = 35, sharpness=6, top_thin = 2, thin = 2);
