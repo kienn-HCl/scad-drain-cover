@@ -11,3 +11,7 @@ image: ## output png image
 stl: ## output stl
 	openscad -o drain-cover-bathroom.stl drain-cover-bathroom.scad
 all: image stl ## output image and stl
+
+ci-image:
+	xvfb-run -a openscad -o drain-cover-bathroom.png --imgsize 1024,1024 --camera 0,-290,80,0,0,30 drain-cover-bathroom.scad
+ci-all: ci-image stl

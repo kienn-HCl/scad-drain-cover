@@ -12,13 +12,13 @@ jobs:
     - name: install openscad
       run: |
         sudo apt-get update
-        sudo apt-get -y install openscad
+        sudo apt-get -y install openscad xvfb
     - name: git-setup
       run: |
         git config --global user.name 'kienn-HCl'
         git config --global user.email '87010782+kienn-HCl@users.noreply.github.com'
     - name: build
       run: |
-        make all
+        make ci-all
         git add .
         git commit -m 'update build images'
