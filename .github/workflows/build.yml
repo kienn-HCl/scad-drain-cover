@@ -1,0 +1,24 @@
+name: "build"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      -  'main'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: install openscad
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install openscad
+    - name: git-setup
+      run: |
+        git config --global user.name 'kienn-HCl'
+        git config --global user.email '87010782+kienn-HCl@users.noreply.github.com'
+    - name: build
+      run: |
+        make all
+        git add .
+        git commit -m 'update build images'
