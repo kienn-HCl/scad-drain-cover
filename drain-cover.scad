@@ -1,22 +1,9 @@
-module drain_cover(radius, edge_len, height, sharpness, top_thin, thin)
-{
-    side_height = height - top_thin;
-
-    // top
-    translate(v = [ 0, 0, side_height + 0.5 * top_thin ])
-        circular_net(radius = radius, edge_len = edge_len + thin, height = top_thin, hole_width = 8, net_width = 3);
-
-    // side
-    side_net(radius = radius - edge_len, height = side_height, factorial = sharpness, thin = thin, hole_width = 2,
-             net_width = 2);
-}
-
 module side_net(radius, height, factorial, thin, hole_width, net_width)
 {
     intersection()
     {
         base_side(radius = radius, height = height, factorial = factorial, thin = thin);
-        net(radius = radius, height = height, thin = thin, hole_width = hole_width, net_width = net_width);
+        radial_bar(radius = radius, height = height, hole_width = hole_width, net_width = net_width);
         ring(outer_radius = radius, width = 0.4 * radius, height = height, center = false);
     }
     intersection()
@@ -28,7 +15,7 @@ module side_net(radius, height, factorial, thin, hole_width, net_width)
     }
 }
 
-module net(radius, height, thin, hole_width, net_width)
+module radial_bar(radius, height, hole_width, net_width)
 {
     d_radian = (hole_width + net_width) / radius;
     d_degree = d_radian * 180 / PI;
@@ -91,7 +78,7 @@ module circular_net(radius, edge_len, height, hole_width, net_width)
     }
 }
 
-module ring(outer_radius, width, height, center)
+module ring(outer_radius, width, height, center = true)
 {
     difference()
     {
