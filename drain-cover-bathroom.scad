@@ -11,7 +11,7 @@ module drain_cover(radius, edge_len, height, sharpness, top_thin, thin)
     translate(v = [0,0,20]) 
     translate(v = [0,0,height - 0.25*top_thin]) 
     {
-        cap_r = radius - 0.5 * edge_len - 0.1;
+        cap_r = radius - 0.5 * edge_len - 0.2;
         circular_net(
             radius = cap_r,
             edge_len = 0.5 * edge_len,
@@ -62,4 +62,4 @@ module drain_cover(radius, edge_len, height, sharpness, top_thin, thin)
     );
 }
 
-drain_cover(radius = 51, edge_len = 16, height = 30, sharpness = 4, top_thin = 10, thin = 2);
+drain_cover(radius = 51, edge_len = 18, height = 30, sharpness = 4, top_thin = 10, thin = 2);
