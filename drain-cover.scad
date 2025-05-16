@@ -99,8 +99,3 @@ module ring(outer_radius, width, height, center)
         cylinder(h = height + 1, r = outer_radius - width, center = center);
     }
 }
-
-// bathroom
-drain_cover(radius = 51, edge_len = 16, height = 30, sharpness = 4, top_thin = 10, thin = 2);
-// kitchen
-// drain_cover(radius = 40, edge_len = 2, height = 35, sharpness=6, top_thin = 2, thin = 2);

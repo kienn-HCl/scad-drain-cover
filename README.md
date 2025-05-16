@@ -1,5 +1,5 @@
 # 排水口カバー
-![drain_cover](./drain-cover.png)
+![drain_cover](./drain-cover-bathroom.png)
 
 家の排水溝用の3Dデータ(scadコード)
 
