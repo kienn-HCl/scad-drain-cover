@@ -38,11 +38,11 @@ module drain_cover_bottom(radius, edge_len, height, sharpness, top_thin, thin)
 }
 translate(v = [ 120, 0, 0])
 drain_cover_top(
-  radius = 61,
-  edge_len = 11,
+  radius = 53,
+  edge_len = 2,
   height = 9,
   sharpness= 4,
-  top_thin = 2,
+  top_thin = 1,
   thin = 2
 );
 drain_cover_bottom(
